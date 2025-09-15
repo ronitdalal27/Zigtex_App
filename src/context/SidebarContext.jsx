@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useState, useEffect } from "react";
 
 const SidebarContext = createContext(undefined);
@@ -50,15 +51,16 @@ export const SidebarProvider = ({ children }) => {
   return (
     <SidebarContext.Provider
       value={{
-        isExpanded: isMobile ? false : isExpanded,
+        isExpanded,
+        setIsExpanded, // ← ✅ Add this!
         isMobileOpen,
         isHovered,
+        setIsHovered,
         activeItem,
         openSubmenu,
+        setActiveItem,
         toggleSidebar,
         toggleMobileSidebar,
-        setIsHovered,
-        setActiveItem,
         toggleSubmenu,
       }}
     >

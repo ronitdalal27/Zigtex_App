@@ -13,9 +13,14 @@ import {
   PlugInIcon,
   TableIcon,
   UserCircleIcon,
+  InboxIcon,
+  SentIcon,
+  TrashIcon,
+  EmailIcon,
 } from "../icons";
 
 import { useSidebar } from "../context/SidebarContext";
+import { useCompose } from "../context/ComposeContext";
 import SidebarWidget from "./SidebarWidget";
 
 const navItems = [
@@ -38,6 +43,15 @@ const navItems = [
     name: "Forms",
     icon: <ListIcon />,
     subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+  },
+  {
+    icon: <EmailIcon />,
+    name: "Email",
+    subItems: [
+      { name: "Inbox", path: "/email", icon: <InboxIcon /> },
+      { name: "Sent", path: "/email/sent", icon: <SentIcon /> },
+      { name: "Trash", path: "/email/trash", icon: <TrashIcon /> },
+    ],
   },
   {
     name: "Tables",
@@ -85,13 +99,17 @@ const othersItems = [
   },
 ];
 
-const AppSidebar = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
-  const location = useLocation();
+const AppSidebar = ({ sidebarRef, setOpenedByClick }) => {
+  const { isExpanded, setIsExpanded, isMobileOpen, isHovered, setIsHovered } =
+    useSidebar();
+  const { openCompose } = useCompose();
 
+  const location = useLocation();
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const [subMenuHeight, setSubMenuHeight] = useState({});
   const subMenuRefs = useRef({});
+
+  const isEmailRoute = location.pathname.startsWith("/email");
 
   const isActive = useCallback(
     (path) => location.pathname === path,
@@ -134,6 +152,12 @@ const AppSidebar = () => {
   }, [openSubmenu]);
 
   const handleSubmenuToggle = (index, menuType) => {
+    if (!isExpanded && !isMobileOpen) {
+      setIsExpanded(true);
+      setOpenedByClick(true);
+      return;
+    }
+
     setOpenSubmenu((prev) => {
       if (prev && prev.type === menuType && prev.index === index) {
         return null;
@@ -150,8 +174,7 @@ const AppSidebar = () => {
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
               className={`menu-item group ${
-                openSubmenu?.type === menuType &&
-                openSubmenu?.index === index
+                openSubmenu?.type === menuType && openSubmenu?.index === index
                   ? "menu-item-active"
                   : "menu-item-inactive"
               } cursor-pointer ${
@@ -235,31 +258,12 @@ const AppSidebar = () => {
                           : "menu-dropdown-item-inactive"
                       }`}
                     >
+                      {subItem.icon && (
+                        <span className="inline-flex items-center mr-2">
+                          {subItem.icon}
+                        </span>
+                      )}
                       {subItem.name}
-                      <span className="flex items-center gap-1 ml-auto">
-                        {subItem.new && (
-                          <span
-                            className={`ml-auto ${
-                              isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
-                            } menu-dropdown-badge`}
-                          >
-                            new
-                          </span>
-                        )}
-                        {subItem.pro && (
-                          <span
-                            className={`ml-auto ${
-                              isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
-                            } menu-dropdown-badge`}
-                          >
-                            pro
-                          </span>
-                        )}
-                      </span>
                     </Link>
                   </li>
                 ))}
@@ -273,6 +277,7 @@ const AppSidebar = () => {
 
   return (
     <aside
+      ref={sidebarRef}
       className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
         ${
           isExpanded || isMobileOpen
@@ -320,17 +325,23 @@ const AppSidebar = () => {
         </Link>
       </div>
 
+      {/* ✅ Sidebar Compose Button */}
+      {isEmailRoute && (isExpanded || isHovered || isMobileOpen) && (
+        <div className="mb-4 px-2">
+          <button
+             onClick={openCompose}
+            className="w-full bg-blue-600 text-white py-2 rounded text-sm font-semibold"
+          >
+            + Compose
+          </button>
+        </div>
+      )}
+
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
             <div>
-              <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
-              >
+              <h2 className="mb-4 text-xs uppercase flex leading-[20px] text-gray-400">
                 {isExpanded || isHovered || isMobileOpen ? (
                   "Menu"
                 ) : (
@@ -340,13 +351,7 @@ const AppSidebar = () => {
               {renderMenuItems(navItems, "main")}
             </div>
             <div>
-              <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
-              >
+              <h2 className="mb-4 text-xs uppercase flex leading-[20px] text-gray-400">
                 {isExpanded || isHovered || isMobileOpen ? (
                   "Others"
                 ) : (
@@ -357,6 +362,7 @@ const AppSidebar = () => {
             </div>
           </div>
         </nav>
+
         {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
       </div>
     </aside>

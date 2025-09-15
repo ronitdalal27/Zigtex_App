@@ -54,6 +54,16 @@ import { ReactComponent as ChatIcon } from "./chat.svg?react";
 import { ReactComponent as MoreDotIcon } from "./moredot.svg?react";
 import { ReactComponent as AlertHexaIcon } from "./alert-hexa.svg?react";
 import { ReactComponent as ErrorHexaIcon } from "./info-hexa.svg?react";
+import { ReactComponent as InboxIcon } from "./Inbox.svg?react";
+import { ReactComponent as TrashIcon } from "./Trash.svg?react";
+import { ReactComponent as EmailIcon } from "./Email.svg?react";
+import { ReactComponent as SentIcon } from "./Sent.svg?react";
+import { ReactComponent as UnionIcon } from "./Union.svg?react";
+import { ReactComponent as PrimaryIcon} from "./Primary.svg?react";
+import { ReactComponent as PositiveIcon} from "./positive.svg?react";
+import { ReactComponent as NegativeIcon} from "./Negative.svg?react";
+import { ReactComponent as WarmIcon} from "./Warm.svg?react";
+import { ReactComponent as FutureRefIcon} from "./FutureRef.svg?react";
 
 export {
   ErrorHexaIcon,
@@ -112,4 +122,14 @@ export {
   ChatIcon,
   AngleLeftIcon,
   AngleRightIcon,
+  InboxIcon,
+  TrashIcon,
+  EmailIcon,
+  SentIcon,
+  UnionIcon,
+  PrimaryIcon,
+  PositiveIcon,
+  NegativeIcon,
+  WarmIcon,
+  FutureRefIcon
 };

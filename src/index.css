@@ -195,7 +195,7 @@ layer(base);
 }
 
 @utility menu-item-active {
-  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+  @apply rounded-[12px] border border-[#f5efeb29] bg-[#d6c3af67] text-black dark:text-black;
 }
 
 @utility menu-item-inactive {
@@ -207,7 +207,7 @@ layer(base);
 }
 
 @utility menu-item-icon-active {
-  @apply text-brand-500 dark:text-brand-400;
+  @apply text-black dark:text-black;
 }
 
 @utility menu-item-icon-size {
@@ -223,9 +223,8 @@ layer(base);
 @utility menu-item-arrow {
   @apply relative;
 }
-
 @utility menu-item-arrow-active {
-  @apply rotate-180 text-brand-500 dark:text-brand-400;
+  @apply rotate-180 text-black dark:text-white;
 }
 
 @utility menu-item-arrow-inactive {
@@ -233,19 +232,19 @@ layer(base);
 }
 
 @utility menu-dropdown-item {
-  @apply relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-theme-sm font-medium;
+  @apply relative flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-theme-sm font-medium;
 }
 
 @utility menu-dropdown-item-active {
-  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+  @apply border border-[#f5efeb29] bg-[#d6c3af67] text-black dark:text-white;
 }
 
 @utility menu-dropdown-item-inactive {
-  @apply text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5;
+  @apply text-gray-500 hover:bg-[#f5efeb10] dark:text-white dark:hover:bg-[#f5efeb10];
 }
 
 @utility menu-dropdown-badge {
-  @apply block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-brand-500 dark:text-brand-400;
+  @apply block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-black dark:text-white;
 }
 
 @utility menu-dropdown-badge-active {
@@ -255,6 +254,7 @@ layer(base);
 @utility menu-dropdown-badge-inactive {
   @apply bg-brand-50 group-hover:bg-brand-100 dark:bg-brand-500/15 dark:group-hover:bg-brand-500/20;
 }
+
 @utility no-scrollbar {
   /* Chrome, Safari and Opera */
   &::-webkit-scrollbar {
