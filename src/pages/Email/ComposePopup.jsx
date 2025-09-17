@@ -1,5 +1,3 @@
-// 
-
 // src/pages/Email/ComposePopup.jsx
 import React, { useState, useRef } from "react";
 import {
@@ -26,37 +24,20 @@ export default function ComposePopup({ index, popup }) {
 
   const [showCc, setShowCc] = useState(false);
   const [showBcc, setShowBcc] = useState(false);
-  const [showFontDropdown, setShowFontDropdown] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [attachedFileName, setAttachedFileName] = useState("");
   const [showFormattingToolbar, setShowFormattingToolbar] = useState(false);
-
 
   const messageRef = useRef(null);
   const fileInputRef = useRef(null);
   const imageInputRef = useRef(null);
 
   const handleMinimize = () => {
-    updateViewMode(
-      popup.id,
-      popup.viewMode === "minimized" ? "default" : "minimized"
-    );
+    updateViewMode(popup.id, popup.viewMode === "minimized" ? "default" : "minimized");
   };
 
   const handleMaximize = () => {
-    updateViewMode(
-      popup.id,
-      popup.viewMode === "maximized" ? "default" : "maximized"
-    );
-  };
-
-  const handleUnderline = () => {
-    document.execCommand("underline");
-  };
-
-  const handleFontChange = (font) => {
-    document.execCommand("fontName", false, font);
-    setShowFontDropdown(false);
+    updateViewMode(popup.id, popup.viewMode === "maximized" ? "default" : "maximized");
   };
 
   const handleInsertLink = () => {
@@ -91,7 +72,7 @@ export default function ComposePopup({ index, popup }) {
     const maxOffset = window.innerWidth - 520;
     return Math.min(baseRight + offset, maxOffset);
   };
-
+  
   const containerClasses = () => {
     let sizeClass = "";
     if (popup.viewMode === "minimized") sizeClass = "w-[300px] h-[40px]";
@@ -110,8 +91,7 @@ export default function ComposePopup({ index, popup }) {
     <div
       className={`${containerClasses()} flex flex-col rounded-t-[8px] bg-white shadow z-50`}
       style={{
-        right:
-          popup.viewMode === "maximized" ? "auto" : `${getRightOffset()}px`,
+        right: popup.viewMode === "maximized" ? "auto" : `${getRightOffset()}px`,
       }}
     >
       {/* Header */}
@@ -120,10 +100,7 @@ export default function ComposePopup({ index, popup }) {
         <div className="flex gap-2">
           <MdMinimize className="cursor-pointer" onClick={handleMinimize} />
           <MdOpenInFull className="cursor-pointer" onClick={handleMaximize} />
-          <MdClose
-            className="cursor-pointer"
-            onClick={() => closeCompose(popup.id)}
-          />
+          <MdClose className="cursor-pointer" onClick={() => closeCompose(popup.id)} />
         </div>
       </div>
 
@@ -140,16 +117,10 @@ export default function ComposePopup({ index, popup }) {
                 className="flex-1 border-b border-gray-300 outline-none pb-1"
               />
               <div className="flex gap-2 ml-2 text-sm pt-1">
-                <button
-                  onClick={() => setShowCc(!showCc)}
-                  className="hover:underline"
-                >
+                <button onClick={() => setShowCc(!showCc)} className="hover:underline">
                   Cc
                 </button>
-                <button
-                  onClick={() => setShowBcc(!showBcc)}
-                  className="hover:underline"
-                >
+                <button onClick={() => setShowBcc(!showBcc)} className="hover:underline">
                   Bcc
                 </button>
               </div>
@@ -201,143 +172,96 @@ export default function ComposePopup({ index, popup }) {
           </div>
 
           {/* Footer */}
-          {/* Footer */}
-        <div className="px-4 pb-3 pt-1 border-t border-gray-300">
-        {/* Formatting Toolbar */}
-        {showFormattingToolbar && (
-            <div className="flex gap-2 mb-2 items-center text-gray-700 text-sm">
-            <button
-                className="font-bold px-2 py-1 border rounded hover:bg-gray-100"
-                onClick={() => document.execCommand("bold")}
-            >
-                B
-            </button>
-            <button
-                className="italic px-2 py-1 border rounded hover:bg-gray-100"
-                onClick={() => document.execCommand("italic")}
-            >
-                I
-            </button>
-            <button
-                className="underline px-2 py-1 border rounded hover:bg-gray-100"
-                onClick={() => document.execCommand("underline")}
-            >
-                U
-            </button>
-            <input
-                type="color"
-                onChange={(e) =>
-                document.execCommand("foreColor", false, e.target.value)
-                }
-                className="w-8 h-8 p-0 border rounded cursor-pointer"
-                title="Text Color"
-            />
-            <button
-                className="px-2 py-1 border rounded hover:bg-gray-100"
-                onClick={() => document.execCommand("insertUnorderedList")}
-            >
-                • Bullets
-            </button>
-            <button
-                className="px-2 py-1 border rounded hover:bg-gray-100"
-                onClick={() => document.execCommand("insertOrderedList")}
-            >
-                1. Numbers
-            </button>
-            </div>
-        )}
-
-        {/* Footer Buttons */}
-        <div className="flex justify-between items-center">
-            {/* Send Button */}
-            <div className="flex items-center">
-            <button className="flex items-center justify-between bg-[#1A73E8] text-white px-4 h-[36px] rounded-[4px] text-sm font-medium hover:bg-[#1a63d8]">
-                Send
-                <span className="border-l border-white h-[16px] mx-2"></span>
-                <MdArrowDropDown />
-            </button>
-            </div>
-
-            {/* Icons */}
-            <div className="relative flex items-center gap-4 text-gray-600 text-lg">
-            {/* Toggle Text Formatting Toolbar */}
-            <FaFont
-                className="cursor-pointer"
-                onClick={() => setShowFormattingToolbar(!showFormattingToolbar)}
-                title="Toggle Formatting Toolbar"
-            />
-
-            {/* Attach File */}
-            <>
-                <MdAttachFile
-                className="cursor-pointer"
-                onClick={() => fileInputRef.current.click()}
-                />
+          <div className="px-4 pb-3 pt-1 border-t border-gray-300">
+            {/* Formatting Toolbar */}
+            {showFormattingToolbar && (
+              <div className="flex flex-wrap gap-2 mb-2 items-center text-gray-700 text-sm">
+                <button className="font-bold px-2 py-1 border rounded hover:bg-gray-100" onClick={() => document.execCommand("bold")}>
+                  B
+                </button>
+                <button className="italic px-2 py-1 border rounded hover:bg-gray-100" onClick={() => document.execCommand("italic")}>
+                  I
+                </button>
+                <button className="underline px-2 py-1 border rounded hover:bg-gray-100" onClick={() => document.execCommand("underline")}>
+                  U
+                </button>
+                <button className="line-through px-2 py-1 border rounded hover:bg-gray-100" onClick={() => document.execCommand("strikeThrough")}>
+                  S
+                </button>
                 <input
-                type="file"
-                ref={fileInputRef}
-                className="hidden"
-                onChange={handleAttachFile}
+                  type="color"
+                  onChange={(e) => document.execCommand("foreColor", false, e.target.value)}
+                  className="w-8 h-8 p-0 border rounded cursor-pointer"
+                  title="Text Color"
                 />
-            </>
+                <select
+                  onChange={(e) => document.execCommand("fontSize", false, e.target.value)}
+                  defaultValue=""
+                  className="border rounded px-1 py-1 text-sm"
+                  title="Font Size"
+                >
+                  <option value="" disabled>Size</option>
+                  <option value="1">Small</option>
+                  <option value="3">Normal</option>
+                  <option value="5">Large</option>
+                  <option value="7">Huge</option>
+                </select>
+                <button className="px-2 py-1 border rounded hover:bg-gray-100" onClick={() => document.execCommand("insertUnorderedList")}>
+                  • Bullets
+                </button>
+                <button className="px-2 py-1 border rounded hover:bg-gray-100" onClick={() => document.execCommand("insertOrderedList")}>
+                  1. Numbers
+                </button>
+                <button className="px-2 py-1 border rounded hover:bg-gray-100" onClick={() => document.execCommand("justifyLeft")} title="Align Left">
+                  ⬅️
+                </button>
+                <button className="px-2 py-1 border rounded hover:bg-gray-100" onClick={() => document.execCommand("justifyCenter")} title="Align Center">
+                  ⬜
+                </button>
+                <button className="px-2 py-1 border rounded hover:bg-gray-100" onClick={() => document.execCommand("justifyRight")} title="Align Right">
+                  ➡️
+                </button>
+              </div>
+            )}
 
-            {/* Insert Link */}
-            <MdInsertLink className="cursor-pointer" onClick={handleInsertLink} />
+            {/* Footer Buttons */}
+            <div className="flex justify-between items-center">
+              {/* Send Button */}
+              <div className="flex items-center">
+                <button className="flex items-center justify-between bg-[#1A73E8] text-white px-4 h-[36px] rounded-[4px] text-sm font-medium hover:bg-[#1a63d8]">
+                  Send
+                  <span className="border-l border-white h-[16px] mx-2"></span>
+                  <MdArrowDropDown />
+                </button>
+              </div>
 
-            {/* Emoji Picker */}
-            <div className="relative">
-                <MdInsertEmoticon
-                className="cursor-pointer"
-                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                />
-                {showEmojiPicker && (
-                <div className="absolute top-6 left-0 bg-white shadow rounded text-sm z-10 flex flex-wrap w-[120px] p-1">
-                    {["😀", "😎", "🎉", "❤️", "👍"].map((emoji) => (
-                    <span
-                        key={emoji}
-                        className="p-1 cursor-pointer hover:bg-gray-100"
-                        onClick={() => handleInsertEmoji(emoji)}
-                    >
-                        {emoji}
-                    </span>
-                    ))}
+              {/* Icons */}
+              <div className="relative flex items-center gap-4 text-gray-600 text-lg">
+                <FaFont className="cursor-pointer" onClick={() => setShowFormattingToolbar(!showFormattingToolbar)} title="Toggle Formatting Toolbar" />
+                <MdAttachFile className="cursor-pointer" onClick={() => fileInputRef.current.click()} />
+                <input type="file" ref={fileInputRef} className="hidden" onChange={handleAttachFile} />
+                <MdInsertLink className="cursor-pointer" onClick={handleInsertLink} />
+                <div className="relative">
+                  <MdInsertEmoticon className="cursor-pointer" onClick={() => setShowEmojiPicker(!showEmojiPicker)} />
+                  {showEmojiPicker && (
+                    <div className="absolute top-6 left-0 bg-white shadow rounded text-sm z-10 flex flex-wrap w-[120px] p-1">
+                      {["😀", "😎", "🎉", "❤️", "👍"].map((emoji) => (
+                        <span key={emoji} className="p-1 cursor-pointer hover:bg-gray-100" onClick={() => handleInsertEmoji(emoji)}>
+                          {emoji}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
-                )}
+                <FaGoogleDrive className="cursor-pointer" onClick={() => alert("Google Drive integration coming soon!")}/>
+                <FaRegImage className="cursor-pointer" onClick={() => imageInputRef.current.click()} />
+                <input type="file" accept="image/*" ref={imageInputRef} className="hidden" onChange={handleInsertImage} />
+                <MdDelete onClick={() => closeCompose(popup.id)} className="cursor-pointer text-red-500" />
+              </div>
             </div>
-
-            {/* Google Drive Placeholder */}
-            <FaGoogleDrive
-                className="cursor-pointer"
-                onClick={() => alert("Google Drive integration coming soon!")}
-            />
-
-            {/* Insert Image */}
-            <>
-                <FaRegImage
-                className="cursor-pointer"
-                onClick={() => imageInputRef.current.click()}
-                />
-                <input
-                type="file"
-                accept="image/*"
-                ref={imageInputRef}
-                className="hidden"
-                onChange={handleInsertImage}
-                />
-            </>
-
-            {/* Delete */}
-            <MdDelete
-                onClick={() => closeCompose(popup.id)}
-                className="cursor-pointer text-red-500"
-            />
-        </div>
-  </div>
-</div>
-
+          </div>
         </>
       )}
     </div>
   );
 }
-
